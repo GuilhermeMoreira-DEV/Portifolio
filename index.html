@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <title>Portfólio | Desenvolvedor Full Stack</title>
+    
+    <link rel="icon" type="image/png" href="icon.png">
+
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Paleta de Cores "Neon Dev" */
+            --bg-main: #0a0e17;       /* Fundo principal super escuro */
+            --bg-secondary: #111827;  /* Fundo de seções alternadas */
+            --card-bg: #1f2937;       /* Fundo dos cards */
+            --accent-neon: #00f2ff;   /* Azul Ciano Neon */
+            --accent-purple: #7b2cbf; /* Roxo para degradês */
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: #e5e7eb;
+        }
+
+        /* Fontes Monoespaçadas para toques "tech" */
+        h1, h2, h3, .navbar-brand, .tech-font, .btn {
+            font-family: 'Fira Code', monospace;
+            letter-spacing: -0.5px;
+        }
+
+        /* Textos em destaque Neon */
+        .text-neon {
+            color: var(--accent-neon);
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+        }
+
+        /* Barra de navegação */
+        .navbar {
+            background-color: rgba(10, 14, 23, 0.95) !important;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand span { color: var(--accent-neon); }
+
+        /* Seção Hero (Topo) */
+        .hero-section {
+            padding: 120px 0;
+            background: linear-gradient(135deg, var(--bg-main) 0%, #1a1a2e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: repeating-linear-gradient(transparent, transparent 2px, rgba(0, 242, 255, 0.03) 3px);
+            pointer-events: none;
+        }
+
+        /* Botões Neon Padrão (para links gerais) */
+        .btn-neon {
+            background-color: transparent;
+            border: 2px solid var(--accent-neon);
+            color: var(--accent-neon);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px rgba(0, 242, 255, 0.2);
+        }
+        .btn-neon:hover {
+            background-color: var(--accent-neon);
+            color: var(--bg-main);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
+        }
+
+        /* NOVO: Botão Social Padronizado (Rodapé) */
+        .btn-social {
+            color: #fff;                  
+            border: 2px solid #fff;       
+            transition: all 0.3s ease;    
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-social:hover {
+            color: var(--accent-neon);           
+            border-color: var(--accent-neon);    
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.6); 
+            background-color: transparent;       
+            transform: translateY(-3px);         
+        }
+
+        /* Cards de Projetos */
+        .project-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-neon);
+            box-shadow: 0 5px 25px rgba(0, 242, 255, 0.15);
+        }
+        .card-img-top {
+            border-bottom: 2px solid var(--bg-main);
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        .project-card:hover .card-img-top { opacity: 1; }
+
+        /* Badges de Habilidade */
+        .badge-tech {
+            background-color: rgba(0, 242, 255, 0.1);
+            color: var(--accent-neon);
+            border: 1px solid var(--accent-neon);
+            font-family: 'Fira Code', monospace;
+            padding: 0.4em 0.8em;
+        }
+        
+        /* XP Timeline Style */
+        .xp-item {
+            border-left: 2px solid #333;
+            padding-left: 20px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .xp-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #333;
+        }
+        .xp-item.active {
+            border-left-color: var(--accent-neon);
+        }
+        .xp-item.active::before {
+            background-color: var(--accent-neon);
+            box-shadow: 0 0 10px var(--accent-neon);
+        }
+
+        /* Animação de digitação */
+        .typing-effect {
+            border-right: 3px solid var(--accent-neon);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3.5s steps(30, end), blink-caret .75s step-end infinite;
+            display: inline-block;
+            max-width: fit-content;
+        }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-neon) } }
+
+        footer { background-color: var(--bg-secondary); border-top: 1px solid rgba(255,255,255,0.05);}
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">&lt;Guilherme<span>Moreira</span>/&gt;</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav ms-auto tech-font">
+                    <li class="nav-item"><a class="nav-link" href="#sobre">_sobre</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experiencia">_xp</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projetos">_projetos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contato">_contato</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section d-flex align-items-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <p class="text-neon tech-font mb-2">Olá, mundo! Eu sou</p>
+                    <h1 class="display-2 fw-bold mb-3">Guilherme Moreira</h1>
+                    <h2 class="h4 text-muted mb-4 tech-font overflow-hidden">
+                        <span class="typing-effect">> Desenvolvedor Full Stack PHP & Técnico de TI_</span>
+                    </h2>
+                    <p class="lead text-muted mb-5" style="max-width: 600px;">
+                        Transformo café em código limpo e eficiente. Especializado em criar soluções robustas unindo minha experiência em infraestrutura com desenvolvimento web moderno.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="#projetos" class="btn btn-neon px-4 py-2">
+                            <i class="fas fa-code me-2"></i>Ver Projetos
+                        </a>
+                        <a href="#contato" class="btn btn-outline-light px-4 py-2">
+                            Contato
+                        </a>
+                    </div>
+                </div>
+                 <div class="col-lg-4 d-none d-lg-block text-center">
+                    <i class="fas fa-laptop-code text-neon" style="font-size: 10rem; opacity: 0.1;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre" class="py-5" style="background-color: var(--bg-secondary);">
+        <div class="container pt-5">
+            <div class="row align-items-center">
+                <div class="col-md-5 mb-4 mb-md-0">
+                    <div class="ratio ratio-1x1 rounded-4 overflow-hidden shadow-lg border border-secondary" style="background: url('img.png') center/cover no-repeat;"></div>
+                </div>
+                <div class="col-md-7 ps-md-5">
+                    <h2 class="text-neon mb-4">// Sobre Mim</h2>
+                    <p class="text-muted">Minha jornada começou no hardware, entendendo cada componente de uma máquina. Essa base sólida em infraestrutura me torna um desenvolvedor melhor, pois entendo onde meu código roda.</p>
+                    <p class="text-muted mb-4">Atualmente, meu foco é o ecossistema PHP, criando sistemas web funcionais, desde a modelagem do banco de dados até a interface do usuário.</p>
+                    
+                    <h5 class="tech-font mb-3 text-white">_tech_stack:</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge badge-tech"><i class="fab fa-php me-1"></i> PHP 8</span>
+                        <span class="badge badge-tech"><i class="fas fa-database me-1"></i> MySQL/MariaDB</span>
+                        <span class="badge badge-tech"><i class="fab fa-html5 me-1"></i> HTML5 & CSS3</span>
+                        <span class="badge badge-tech"><i class="fab fa-bootstrap me-1"></i> Bootstrap 5</span>
+                        <span class="badge badge-tech"><i class="fab fa-git-alt me-1"></i> Git & GitHub</span>
+                        <span class="badge badge-tech"><i class="fas fa-server me-1"></i> Infra & Redes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experiencia" class="py-5">
+        <div class="container py-5">
+            <h2 class="text-neon mb-5 text-center text-md-start">// XP Profissional</h2>
+            
+            <div class="row">
+                <div class="col-lg-8">
+                    
+                    <div class="xp-item active">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap">
+                            <div>
+                                <h4 class="fw-bold text-white mb-1">Programador</h4>
+                                <h5 class="text-neon tech-font mb-2">Hospital Zona Sul</h5>
+                            </div>
+                            <span class="badge bg-dark border border-secondary text-neon">8 meses – Atual</span>
+                        </div>
+                        <p class="text-muted mt-2">
+                            Atividades: Desenvolvimento e manutenção de software, com ênfase e experiência prática em sistemas hospitalares. Foco em otimização de processos internos.
+                        </p>
+                    </div>
+
+                    <div class="xp-item">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap">
+                            <div>
+                                <h4 class="fw-bold text-white mb-1">Técnico em Manutenção e Vendedor</h4>
+                                <h5 class="text-muted tech-font mb-2">Nick Tech Store (Shopping Boulevard)</h5>
+                            </div>
+                            <span class="badge bg-dark border border-secondary text-muted">14 meses</span>
+                        </div>
+                        <p class="text-muted mt-2">
+                            Atividades: Manutenção geral de notebooks e computadores (troca de componentes, formatação, limpeza) e vendas consultivas de produtos eletrônicos.
+                        </p>
+                    </div>
+
+                    <div class="xp-item">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap">
+                            <div>
+                                <h4 class="fw-bold text-white mb-1">Secretaria</h4>
+                                <h5 class="text-muted tech-font mb-2">Colégio Maria José Balzanelo Aguilera</h5>
+                            </div>
+                            <span class="badge bg-dark border border-secondary text-muted">1 ano</span>
+                        </div>
+                        <p class="text-muted mt-2">
+                            Atividades: Atendimento ao público, organização de documentos e gestão de rotinas administrativas escolares.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projetos" class="py-5" style="background-color: var(--bg-secondary);">
+        <div class="container py-5">
+            <h2 class="text-center text-neon mb-2">// Meus Projetos</h2>
+            <p class="text-center text-muted mb-5">Aplicações desenvolvidas e hospedadas.</p>
+            
+            <div class="row g-4">
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card">
+                        <div class="card-header tech-font border-0 py-3 d-flex align-items-center" style="background: rgba(0,242,255,0.05)">
+                            
+                             <i class="fas fa-futbol text-neon me-2"></i> sportly.php
+                             
+                        </div>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold text-white">Sportly - Gestão Esportiva</h5>
+                            <p class="card-text text-muted small">Sistema completo para gestão de escolinhas de futebol, controle de alunos, pagamentos e planos.</p>
+                            <div class="mb-4 pt-2">
+                                <span class="badge bg-dark border border-secondary text-neon small me-1">PHP</span>
+                                <span class="badge bg-dark border border-secondary text-neon small me-1">MySQL</span>
+                                <span class="badge bg-dark border border-secondary text-neon small me-1">MVC</span>
+                            </div>
+                            <a href="http://sportly.ct.ws/sportly/landing.php" target="_blank" class="btn btn-neon w-100">
+                                <i class="fas fa-external-link-alt me-2"></i>Acessar Sistema
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card">
+                        <div class="card-header tech-font border-0 py-3 d-flex align-items-center" style="background: rgba(0,242,255,0.05)">
+                             <i class="fas fa-headset text-neon me-2"></i> sistema_de_chamados.php
+                        </div>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold text-white">Sistema de Chamados TI</h5>
+                            <p class="card-text text-muted small">Controle de tickets de suporte e manutenção de parque de máquinas.</p>
+                            <div class="mb-4 pt-2">
+                                <span class="badge bg-dark border border-secondary text-neon small me-1">PHP</span>
+                                <span class="badge bg-dark border border-secondary text-neon small me-1">CRUD</span>
+                            </div>
+                            <button class="btn btn-outline-secondary w-100 disabled tech-font">
+                                <i class="fas fa-code me-2"></i>deploy_em_breve...
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card">
+                        <div class="card-header tech-font border-0 py-3 d-flex align-items-center" style="background: rgba(0,242,255,0.05)">
+                             <i class="fas fa-notes-medical text-neon me-2"></i> prontuario.php
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold text-white">MedSys Prontuário</h5>
+                            <p class="card-text text-muted small">Gestão básica de pacientes e histórico médico eletrônico.</p>
+                            <div class="mb-4 pt-2">
+                                <span class="badge bg-dark border border-secondary text-neon small me-1">PHP</span>
+                                <span class="badge bg-dark border border-secondary text-neon small me-1">Segurança</span>
+                            </div>
+                             <button class="btn btn-outline-secondary w-100 disabled tech-font">
+                                <i class="fas fa-code me-2"></i>deploy_em_breve...
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer id="contato" class="py-5 text-center">
+        <div class="container">
+            <h2 class="text-neon tech-font mb-4">// Vamos conectar?</h2>
+            <p class="text-muted mb-5">Disponível para oportunidades como desenvolvedor ou suporte técnico.</p>
+            
+            <div class="d-flex justify-content-center flex-wrap gap-4 mb-5">
+    
+                <a href="https://www.linkedin.com/in/guilherme-moreira-abreu-dev/" target="_blank" title="LinkedIn"
+                   class="btn btn-social rounded-circle p-0" style="width: 60px; height: 60px;">
+                    <i class="fab fa-linkedin-in fs-4"></i>
+                </a>
+
+                <a href="https://github.com/GuilhermeMoreira-DEV" target="_blank" title="GitHub"
+                   class="btn btn-social rounded-circle p-0" style="width: 60px; height: 60px;">
+                    <i class="fab fa-github fs-4"></i>
+                </a>
+
+                <a href="https://www.instagram.com/guilherme.moreira005/" target="_blank" title="Instagram"
+                   class="btn btn-social rounded-circle p-0" style="width: 60px; height: 60px;">
+                    <i class="fab fa-instagram fs-4"></i>
+                </a>
+
+                <a href="mailto:Guilhermemoreiraabreu123@gmail.com" title="Enviar E-mail"
+                   class="btn btn-social rounded-circle p-0" style="width: 60px; height: 60px;">
+                    <i class="fas fa-envelope fs-4"></i>
+                </a>
+
+                <a href="https://wa.me/5543984817349" target="_blank" title="WhatsApp"
+                   class="btn btn-social rounded-circle p-0" style="width: 60px; height: 60px;">
+                    <i class="fab fa-whatsapp fs-4"></i>
+                </a>
+
+            </div>
+            
+            <p class="tech-font text-muted small mb-0">
+                <i class="fas fa-code text-neon"></i> desenvolvido_por &lt;Guilherme Moreira&gt; @ 2026
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
